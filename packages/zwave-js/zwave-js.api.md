@@ -52,6 +52,7 @@ import type { FileSystem as FileSystem_2 } from '@zwave-js/host';
 import { Firmware } from '@zwave-js/core';
 import { FirmwareFileFormat } from '@zwave-js/core';
 import { FirmwareUpdateCapabilities } from '@zwave-js/cc';
+import { FirmwareUpdateOptions } from '@zwave-js/cc';
 import type { FirmwareUpdateProgress } from '@zwave-js/cc/safe';
 import type { FirmwareUpdateResult } from '@zwave-js/cc/safe';
 import { FirmwareUpdateResult as FirmwareUpdateResult_2 } from '@zwave-js/cc';
@@ -129,6 +130,7 @@ import { ResponsePredicate } from '@zwave-js/serial';
 import { ResponseRole } from '@zwave-js/serial';
 import { RFRegion } from '@zwave-js/core/safe';
 import { RFRegion as RFRegion_2 } from '@zwave-js/core';
+import { RFRegionInfo } from '@zwave-js/core';
 import { Route } from '@zwave-js/core';
 import { RouteKind } from '@zwave-js/core';
 import { RouteProtocolDataRate } from '@zwave-js/core';
@@ -389,7 +391,7 @@ export class Driver extends TypedEventEmitter<DriverEventCallbacks> implements Z
     checkForConfigUpdates(silent?: boolean): Promise<string | undefined>;
     // Warning: (ae-forgotten-export) The symbol "SendDataRequest" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "SendDataBridgeRequest" needs to be exported by the entry point index.d.ts
-    computeNetCCPayloadSize(commandOrMsg: CommandClass | SendDataRequest | SendDataBridgeRequest): number;
+    computeNetCCPayloadSize(commandOrMsg: CommandClass | SendDataRequest | SendDataBridgeRequest, ignoreEncapsulation?: boolean): number;
     // (undocumented)
     readonly configManager: ConfigManager;
     // (undocumented)
@@ -1343,9 +1345,13 @@ export enum SerialAPISetupCommand {
     // (undocumented)
     GetPowerlevel16Bit = 19,
     // (undocumented)
+    GetRegionInfo = 22,
+    // (undocumented)
     GetRFRegion = 32,
     // (undocumented)
     GetSupportedCommands = 1,
+    // (undocumented)
+    GetSupportedRegions = 21,
     // (undocumented)
     SetLongRangeMaximumTxPower = 3,
     // (undocumented)
@@ -1532,22 +1538,42 @@ export class ZWaveController extends TypedEventEmitter<ControllerEventCallbacks>
     deleteSUCReturnRoutes(nodeId: number): Promise<boolean>;
     // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "getNodeNeighbors"
     discoverNodeNeighbors(nodeId: number): Promise<boolean>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMCloseExt"
     externalNVMClose(): Promise<void>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMClose"
+    externalNVMCloseExt(): Promise<void>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMOpenExt"
     externalNVMOpen(): Promise<number>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMOpen"
+    externalNVMOpenExt(): Promise<{
+        size: number;
+        supportedOperations: ExtendedNVMOperationsCommand[];
+    }>;
     externalNVMReadBuffer(offset: number, length: number): Promise<Buffer>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMReadBufferExt"
     externalNVMReadBuffer700(offset: number, length: number): Promise<{
+        buffer: Buffer;
+        endOfFile: boolean;
+    }>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMReadBuffer700"
+    externalNVMReadBufferExt(offset: number, length: number): Promise<{
         buffer: Buffer;
         endOfFile: boolean;
     }>;
     externalNVMReadByte(offset: number): Promise<number>;
     externalNVMWriteBuffer(offset: number, buffer: Buffer): Promise<boolean>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMWriteBufferExt"
     externalNVMWriteBuffer700(offset: number, buffer: Buffer): Promise<{
+        endOfFile: boolean;
+    }>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "externalNVMWriteBuffer700"
+    externalNVMWriteBufferExt(offset: number, buffer: Buffer): Promise<{
         endOfFile: boolean;
     }>;
     externalNVMWriteByte(offset: number, data: number): Promise<boolean>;
     // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
     // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "getAvailableFirmwareUpdates"
-    firmwareUpdateOTA(nodeId: number, updateInfo: FirmwareUpdateInfo): Promise<FirmwareUpdateResult_2>;
+    firmwareUpdateOTA(nodeId: number, updateInfo: FirmwareUpdateInfo, options?: FirmwareUpdateOptions): Promise<FirmwareUpdateResult_2>;
     firmwareUpdateOTW(data: Buffer): Promise<ControllerFirmwareUpdateResult>;
     // (undocumented)
     get firmwareVersion(): MaybeNotKnown<string>;
@@ -1636,6 +1662,15 @@ export class ZWaveController extends TypedEventEmitter<ControllerEventCallbacks>
     // (undocumented)
     get protocolVersion(): MaybeNotKnown<string>;
     provisionSmartStartNode(entry: PlannedProvisioningEntry): void;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "supportedRFRegions"
+    queryRFRegionInfo(region: RFRegion_2): Promise<{
+        region: RFRegion_2;
+        supportsZWave: boolean;
+        supportsLongRange: boolean;
+        includesRegion?: RFRegion_2;
+    }>;
+    // Warning: (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "getSupportedRFRegions"
+    querySupportedRFRegions(): Promise<RFRegion_2[]>;
     rebuildNodeRoutes(nodeId: number): Promise<boolean>;
     get rebuildRoutesProgress(): ReadonlyMap<number, RebuildRoutesStatus> | undefined;
     removeAssociations(source: AssociationAddress, group: number, destinations: AssociationAddress[]): Promise<void>;
@@ -1681,6 +1716,7 @@ export class ZWaveController extends TypedEventEmitter<ControllerEventCallbacks>
     get sucNodeId(): MaybeNotKnown<number>;
     // (undocumented)
     get supportedFunctionTypes(): MaybeNotKnown<readonly FunctionType[]>;
+    get supportedRegions(): MaybeNotKnown<ReadonlyMap<RFRegion_2, Readonly<RFRegionInfo>>>;
     // (undocumented)
     get supportedSerialAPISetupCommands(): readonly SerialAPISetupCommand[] | undefined;
     supportsFeature(feature: ZWaveFeature): MaybeNotKnown<boolean>;
@@ -1983,7 +2019,7 @@ export class ZWaveNode extends Endpoint implements SecurityClassOwner, IZWaveNod
     get supportsWakeUpOnDemand(): MaybeNotKnown<boolean>;
     testPowerlevel(testNodeId: number, powerlevel: Powerlevel_2, healthCheckTestFrameCount: number, onProgress?: (acknowledged: number, total: number) => void): Promise<number>;
     // Warning: (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
-    updateFirmware(updates: Firmware[]): Promise<FirmwareUpdateResult_2>;
+    updateFirmware(updates: Firmware[], options?: FirmwareUpdateOptions): Promise<FirmwareUpdateResult_2>;
     waitForWakeup(): Promise<void>;
     // (undocumented)
     get zwavePlusNodeType(): MaybeNotKnown<ZWavePlusNodeType>;
@@ -2317,7 +2353,8 @@ export * from "@zwave-js/cc";
 //   Type 'Security2Extension' is missing the following properties from type 'MPANExtension': groupId, innerMPANState
 // /home/runner/work/node-zwave-js/node-zwave-js/packages/cc/src/cc/Security2CC.ts:1380:25 - (TS2339) Property 'senderEI' does not exist on type 'Security2Extension'.
 // /home/runner/work/node-zwave-js/node-zwave-js/packages/cc/src/cc/Security2CC.ts:1438:19 - (TS2339) Property 'senderEI' does not exist on type 'Security2Extension'.
-// src/lib/controller/Controller.ts:867:2 - (ae-missing-getter) The property "provisioningList" has a setter but no getter.
+// src/lib/controller/Controller.ts:891:2 - (ae-missing-getter) The property "provisioningList" has a setter but no getter.
+// src/lib/controller/Controller.ts:7282:3 - (ae-forgotten-export) The symbol "ExtendedNVMOperationsCommand" needs to be exported by the entry point index.d.ts
 // src/lib/driver/Driver.ts:701:24 - (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
 // src/lib/driver/Driver.ts:4191:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // src/lib/driver/Driver.ts:5340:2 - (ae-unresolved-link) The @link reference could not be resolved: The package "zwave-js" does not have an export "drainSerialAPIQueue"
@@ -2327,8 +2364,8 @@ export * from "@zwave-js/cc";
 // src/lib/driver/Driver.ts:5777:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // src/lib/driver/Driver.ts:5913:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // src/lib/driver/ZWaveOptions.ts:270:120 - (tsdoc-escape-greater-than) The ">" character should be escaped using a backslash to avoid confusion with an HTML tag
-// src/lib/node/Node.ts:1032:2 - (ae-missing-getter) The property "deviceConfigHash" has a setter but no getter.
-// src/lib/node/Node.ts:3018:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
+// src/lib/node/Node.ts:1033:2 - (ae-missing-getter) The property "deviceConfigHash" has a setter but no getter.
+// src/lib/node/Node.ts:3019:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // src/lib/zniffer/Zniffer.ts:631:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 // src/lib/zniffer/Zniffer.ts:632:5 - (tsdoc-param-tag-missing-hyphen) The @param block should be followed by a parameter name and then a hyphen
 

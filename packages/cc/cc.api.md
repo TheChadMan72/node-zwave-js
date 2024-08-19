@@ -6843,7 +6843,19 @@ export type FirmwareUpdateCapabilities = {
     readonly firmwareTargets: readonly number[];
     readonly continuesToFunction: MaybeNotKnown<boolean>;
     readonly supportsActivation: MaybeNotKnown<boolean>;
+    readonly supportsResuming: MaybeNotKnown<boolean>;
+    readonly supportsNonSecureTransfer: MaybeNotKnown<boolean>;
 };
+
+// Warning: (ae-missing-release-tag) "FirmwareUpdateInitResult" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface FirmwareUpdateInitResult {
+    nonSecureTransfer?: boolean;
+    resume?: boolean;
+    // (undocumented)
+    status: FirmwareUpdateRequestStatus;
+}
 
 // Warning: (ae-missing-release-tag) "FirmwareUpdateMetaData" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
@@ -6867,6 +6879,10 @@ export interface FirmwareUpdateMetaData {
     maxFragmentSize?: number;
     // (undocumented)
     supportsActivation: MaybeNotKnown<boolean>;
+    // (undocumented)
+    supportsNonSecureTransfer?: MaybeNotKnown<boolean>;
+    // (undocumented)
+    supportsResuming?: MaybeNotKnown<boolean>;
 }
 
 // Warning: (ae-missing-release-tag) "FirmwareUpdateMetaDataCC" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -6984,6 +7000,10 @@ export class FirmwareUpdateMetaDataCCMetaDataReport extends FirmwareUpdateMetaDa
     // (undocumented)
     readonly supportsActivation: MaybeNotKnown<boolean>;
     // (undocumented)
+    readonly supportsNonSecureTransfer?: MaybeNotKnown<boolean>;
+    // (undocumented)
+    readonly supportsResuming?: MaybeNotKnown<boolean>;
+    // (undocumented)
     toLogEntry(host?: ZWaveValueHost_2): MessageOrCCLogEntry_2;
 }
 
@@ -7009,6 +7029,10 @@ export interface FirmwareUpdateMetaDataCCMetaDataReportOptions {
     maxFragmentSize?: number;
     // (undocumented)
     supportsActivation?: MaybeNotKnown<boolean>;
+    // (undocumented)
+    supportsNonSecureTransfer?: MaybeNotKnown<boolean>;
+    // (undocumented)
+    supportsResuming?: MaybeNotKnown<boolean>;
 }
 
 // Warning: (ae-missing-release-tag) "FirmwareUpdateMetaDataCCPrepareGet" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -7110,6 +7134,10 @@ export class FirmwareUpdateMetaDataCCRequestGet extends FirmwareUpdateMetaDataCC
     // (undocumented)
     manufacturerId: number;
     // (undocumented)
+    nonSecureTransfer?: boolean;
+    // (undocumented)
+    resume?: boolean;
+    // (undocumented)
     serialize(): Buffer;
     // (undocumented)
     toLogEntry(host?: ZWaveValueHost_2): MessageOrCCLogEntry_2;
@@ -7127,6 +7155,8 @@ export type FirmwareUpdateMetaDataCCRequestGetOptions = {
     fragmentSize: number;
     activation?: boolean;
     hardwareVersion?: number;
+    resume?: boolean;
+    nonSecureTransfer?: boolean;
 }>;
 
 // Warning: (ae-missing-release-tag) "FirmwareUpdateMetaDataCCRequestReport" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
@@ -7134,6 +7164,10 @@ export type FirmwareUpdateMetaDataCCRequestGetOptions = {
 // @public (undocumented)
 export class FirmwareUpdateMetaDataCCRequestReport extends FirmwareUpdateMetaDataCC {
     constructor(host: ZWaveHost_2, options: CommandClassDeserializationOptions);
+    // (undocumented)
+    nonSecureTransfer?: boolean;
+    // (undocumented)
+    resume?: boolean;
     // (undocumented)
     readonly status: FirmwareUpdateRequestStatus;
     // (undocumented)
@@ -7156,6 +7190,56 @@ export class FirmwareUpdateMetaDataCCStatusReport extends FirmwareUpdateMetaData
 //
 // @public (undocumented)
 export const FirmwareUpdateMetaDataCCValues: Readonly<{
+    supportsNonSecureTransfer: {
+        readonly id: {
+            commandClass: (typeof CommandClasses)["Firmware Update Meta Data"];
+            property: "supportsNonSecureTransfer";
+        };
+        readonly endpoint: (endpoint?: number | undefined) => ExpandRecursively<    {
+        readonly commandClass: (typeof CommandClasses)["Firmware Update Meta Data"];
+        readonly endpoint: number;
+        readonly property: "supportsNonSecureTransfer";
+        }>;
+        readonly is: (valueId: ValueID_2) => ExpandRecursively<boolean>;
+        readonly meta: {
+            readonly type: "any";
+            readonly readable: true;
+            readonly writeable: true;
+        };
+        readonly options: {
+            readonly stateful: true;
+            readonly secret: false;
+            readonly minVersion: 1;
+            readonly supportsEndpoints: true;
+            readonly autoCreate: true;
+            readonly internal: true;
+        };
+    };
+    supportsResuming: {
+        readonly id: {
+            commandClass: (typeof CommandClasses)["Firmware Update Meta Data"];
+            property: "supportsResuming";
+        };
+        readonly endpoint: (endpoint?: number | undefined) => ExpandRecursively<    {
+        readonly commandClass: (typeof CommandClasses)["Firmware Update Meta Data"];
+        readonly endpoint: number;
+        readonly property: "supportsResuming";
+        }>;
+        readonly is: (valueId: ValueID_2) => ExpandRecursively<boolean>;
+        readonly meta: {
+            readonly type: "any";
+            readonly readable: true;
+            readonly writeable: true;
+        };
+        readonly options: {
+            readonly stateful: true;
+            readonly secret: false;
+            readonly minVersion: 1;
+            readonly supportsEndpoints: true;
+            readonly autoCreate: true;
+            readonly internal: true;
+        };
+    };
     continuesToFunction: {
         readonly id: {
             commandClass: (typeof CommandClasses)["Firmware Update Meta Data"];
@@ -7284,6 +7368,14 @@ export enum FirmwareUpdateMetaDataCommand {
     RequestReport = 4,
     // (undocumented)
     StatusReport = 7
+}
+
+// Warning: (ae-missing-release-tag) "FirmwareUpdateOptions" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface FirmwareUpdateOptions {
+    nonSecureTransfer?: boolean;
+    resume?: boolean;
 }
 
 // Warning: (ae-missing-release-tag) "FirmwareUpdateProgress" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)

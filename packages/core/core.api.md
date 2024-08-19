@@ -2881,6 +2881,20 @@ export enum RFRegion {
     "USA" = 1
 }
 
+// Warning: (ae-missing-release-tag) "RFRegionInfo" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
+export interface RFRegionInfo {
+    // (undocumented)
+    includesRegion?: RFRegion;
+    // (undocumented)
+    region: RFRegion;
+    // (undocumented)
+    supportsLongRange: boolean;
+    // (undocumented)
+    supportsZWave: boolean;
+}
+
 // Warning: (ae-missing-release-tag) "Route" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
 //
 // @public (undocumented)
